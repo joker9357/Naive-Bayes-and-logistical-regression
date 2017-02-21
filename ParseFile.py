@@ -2,12 +2,17 @@ import os
 import collections
 
 
-def parse(path):
+
+def parse(spam_path,ham_path):
     print("parse function")
-    lists, count = getfile(path)
-    data = get_data(lists)
-    word_in_this_fold, word_set = calculate_the_number_of_word_in_this_set(data)
-    return word_in_this_fold, word_set, count
+    spam_lists, spam_count = getfile(spam_path)
+    ham_lists, ham_count = getfile(ham_path)
+    spam_data = get_data(spam_lists)
+    ham_data = get_data(ham_lists)
+    spam_word, spam_word_set, spam_row = calculate_the_number_of_word_in_this_set(spam_data)
+    ham_word, ham_word_set, ham_row = calculate_the_number_of_word_in_this_set(ham_data)
+    attribute, input_vector = inputvector(spam_word_set, spam_word, spam_row, ham_word_set, ham_word, ham_row)
+    return spam_word, spam_word_set, spam_count, ham_word, ham_word_set, ham_count, attribute, input_vector
 
 
 def test_parse(path):
@@ -38,15 +43,56 @@ def get_data(lists):
 
 
 def calculate_the_number_of_word_in_this_set(data):
+    row=[]
     word_in_this_fold = []
     for text in data:
+        row.append(len(word_in_this_fold))
         words_in_text = text.split()
         for word in words_in_text:
             if len(word) <= 1 or word == 'Subject:':
                 continue
             word_in_this_fold.append(word)
     word_set = collections.Counter(word_in_this_fold)
-    return word_in_this_fold, word_set
+    return word_in_this_fold, word_set, row
+
+
+def inputvector(spam_word_set, spam_word, spam_row, ham_word_set, ham_word, ham_row):
+    total_set = spam_word_set+ham_word_set
+    attribute = list(total_set.keys())
+    length = len(attribute)
+    inputmatrix = []
+    for i in range(len(spam_row)):
+        if i+1 < len(spam_row)-1:
+            text = spam_word[spam_row[i]:spam_row[i+1]]
+        else:
+            text = spam_word[spam_row[i]:-1]
+        text_counter = collections.Counter(text)
+        vector = [0]*length
+        for j in text_counter:
+            attribute_index = attribute.index(j)
+            vector[attribute_index] = text_counter[j]
+        vector.insert(0, 0)
+        inputmatrix.append(vector)
+
+    for i in range(len(ham_row)):
+        if i+1 < len(ham_row)-1:
+            text = spam_word[ham_row[i]:ham_row[i+1]]
+        else:
+            text = spam_word[ham_row[i]:-1]
+        text_counter = collections.Counter(text)
+        vector = [0]*length
+        for j in text_counter:
+            attribute_index = attribute.index(j)
+            vector[attribute_index] = text_counter[j]
+        vector.insert(0, 1)
+        inputmatrix.append(vector)
+
+    return attribute, inputmatrix
+
+
+
+
+
 
 
 

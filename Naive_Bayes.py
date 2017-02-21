@@ -29,8 +29,8 @@ def accuracy(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word
     count = 0  #number of test file
     spam_prior, ham_prior, spam_dict, ham_dict, total_length = training(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word_set)
     print("finish training")
-    spam_data = test_parse('./test/spamtest')
-    ham_data = test_parse('./test/spamtest')
+    spam_data = test_parse('./3/test/spamtest')
+    ham_data = test_parse('./3/test/hamtest')
     for i in spam_data:
         count+=1
         p_s = spam_prior
@@ -43,9 +43,9 @@ def accuracy(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word
                 p_s += 1.0*(math.log(1/(spam_count+total_length), 2))
 
             if word[j] in ham_dict:
-                p_s += ham_dict[word[j]]
+                p_h += ham_dict[word[j]]
             else:
-                p_s += 1.0*(math.log(1/(ham_count+total_length), 2))
+                p_h += 1.0*(math.log(1/(ham_count+total_length), 2))
 
         if p_s > p_h:
             success += 1
@@ -62,9 +62,9 @@ def accuracy(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word
                 p_s += 1.0 * (math.log(1 / (spam_count + total_length), 2))
 
             if word[j] in ham_dict:
-                p_s += ham_dict[word[j]]
+                p_h += ham_dict[word[j]]
             else:
-                p_s += 1.0 * (math.log(1 / (ham_count + total_length), 2))
+                p_h += 1.0 * (math.log(1 / (ham_count + total_length), 2))
 
         if p_s < p_h:
             success += 1
@@ -72,7 +72,6 @@ def accuracy(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word
     print("finish Navie Bayes")
 
     return 1.0*success/count
-
 
 
 def calculate_the_number_of_word(data):

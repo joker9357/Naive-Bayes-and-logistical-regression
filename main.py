@@ -12,7 +12,7 @@ def main():
     print("finish Naive_Bayes")
     weight_matrix = [0]*len(attribute)
     preprocess(attribute, input_vector, weight_matrix, 0.1, -10)
-    logistic_accuracy = logic_accuracy(weight_matrix)
+    logistic_accuracy = logic_accuracy(weight_matrix, attribute)
     print("finish main")
 
 if __name__ == "__main__": main()

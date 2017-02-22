@@ -76,9 +76,9 @@ def inputvector(spam_word_set, spam_word, spam_row, ham_word_set, ham_word, ham_
 
     for i in range(len(ham_row)):
         if i+1 < len(ham_row)-1:
-            text = spam_word[ham_row[i]:ham_row[i+1]]
+            text = ham_word[ham_row[i]:ham_row[i+1]]
         else:
-            text = spam_word[ham_row[i]:-1]
+            text = ham_word[ham_row[i]:-1]
         text_counter = collections.Counter(text)
         vector = [0]*length
         for j in text_counter:
@@ -89,6 +89,43 @@ def inputvector(spam_word_set, spam_word, spam_row, ham_word_set, ham_word, ham_
 
     return attribute, inputmatrix
 
+
+def test_vector(attribute, spam_path, ham_path):
+    spam_lists, spam_count = getfile(spam_path)
+    ham_lists, ham_count = getfile(ham_path)
+    spam_data = get_data(spam_lists)
+    ham_data = get_data(ham_lists)
+    spam_word, spam_word_set, spam_row = calculate_the_number_of_word_in_this_set(spam_data)
+    ham_word, ham_word_set, ham_row = calculate_the_number_of_word_in_this_set(ham_data)
+    length = len(attribute)
+    test_matrix = []
+    for i in range(len(spam_row)):
+        if i+1 < len(spam_row)-1:
+            text = spam_word[spam_row[i]:spam_row[i+1]]
+        else:
+            text = spam_word[spam_row[i]:-1]
+        text_counter = collections.Counter(text)
+        vector = [0]*length
+        for j in text_counter:
+            attribute_index = attribute.index(j)
+            vector[attribute_index] = text_counter[j]
+        vector.insert(0, 0)
+        test_matrix.append(vector)
+
+    for i in range(len(ham_row)):
+        if i+1 < len(ham_row)-1:
+            text = ham_word[ham_row[i]:ham_row[i+1]]
+        else:
+            text = ham_word[ham_row[i]:-1]
+        text_counter = collections.Counter(text)
+        vector = [0]*length
+        for j in text_counter:
+            attribute_index = attribute.index(j)
+            vector[attribute_index] = text_counter[j]
+        vector.insert(0, 1)
+        test_matrix.append(vector)
+
+    return test_matrix
 
 
 

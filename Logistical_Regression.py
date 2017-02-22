@@ -1,4 +1,5 @@
 import math
+from ParseFile import test_vector
 
 
 def preprocess(attribute, input_vector, weight_matrix, learning_rate, lambda_input):
@@ -21,8 +22,22 @@ def preprocess(attribute, input_vector, weight_matrix, learning_rate, lambda_inp
     return weight_matrix
 
 
-def logic_accuracy(weight_matrix):
+def logic_accuracy(weight_matrix, attribute):
+    success = 0
+    count = 0
+    test_matrix = test_vector(attribute, './3/test/spamtest', './3/test/hamtest')
+    for vector in test_matrix:
+        count += 1
+        sum_of_result=0
+        for i in range(1,len(vector)):
+            sum_of_result += weight_matrix[i-1]*vector[i]
 
+        if sum_of_result>0 and vector[0] == 1:
+            success += 1
+        if sum_of_result<0 and vector[0] == 0:
+            success += 1
+
+    return 1.0*success/count
     print("finish logic_accuracy")
 
 

@@ -2,13 +2,13 @@ import math
 from ParseFile import test_parse
 
 
-def training(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word_set):
+def training(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word_set, total_set, spam_cut=0, ham_cut=0):
 
     spam_prior = math.log(1.0*spam_count/(spam_count+ham_count), 2)
     ham_prior = math.log(1.0*ham_count/(spam_count+ham_count), 2)
-    spam_length = len(spam_word)
-    ham_length = len(ham_word)
-    total_length = len(spam_word_set+ham_word_set)
+    spam_length = len(spam_word)-spam_cut
+    ham_length = len(ham_word)-ham_cut
+    total_length = len(total_set)
     spam_dict = {}
     ham_dict = {}
     for i in spam_word_set:
@@ -24,10 +24,10 @@ def training(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word
     return spam_prior, ham_prior, spam_dict, ham_dict,total_length
 
 
-def accuracy(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word_set):
+def accuracy(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word_set, total_set, spam_cut=0, ham_cut=0):
     success = 0#number of right file
     count = 0  #number of test file
-    spam_prior, ham_prior, spam_dict, ham_dict, total_length = training(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word_set)
+    spam_prior, ham_prior, spam_dict, ham_dict, total_length = training(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word_set, total_set, spam_cut, ham_cut)
     print("finish training")
     spam_data = test_parse('./3/test/spamtest')
     ham_data = test_parse('./3/test/hamtest')

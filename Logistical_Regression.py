@@ -1,8 +1,7 @@
 import math
-from ParseFile import test_vector
 
 
-def preprocess(attribute, input_vector, weight_matrix, learning_rate, lambda_input):
+def preprocess(input_vector, weight_matrix, learning_rate, lambda_input):
     for iterator in range(5):
         gradient = []
         w0 = 0
@@ -22,10 +21,9 @@ def preprocess(attribute, input_vector, weight_matrix, learning_rate, lambda_inp
     return weight_matrix
 
 
-def logic_accuracy(weight_matrix, attribute):
+def logic_accuracy(weight_matrix, test_matrix):
     success = 0
     count = 0
-    test_matrix = test_vector(attribute, './3/test/spamtest', './3/test/hamtest')
     for vector in test_matrix:
         count += 1
         sum_of_result=0

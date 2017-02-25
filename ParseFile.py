@@ -110,6 +110,8 @@ def test_vector(attribute, spam_path, ham_path):
         text_counter = collections.Counter(text)
         vector = [0]*length
         for j in text_counter:
+            if j not in attribute:
+                continue
             attribute_index = attribute.index(j)
             vector[attribute_index] = text_counter[j]
         vector.insert(0, 0)
@@ -123,6 +125,8 @@ def test_vector(attribute, spam_path, ham_path):
         text_counter = collections.Counter(text)
         vector = [0]*length
         for j in text_counter:
+            if j not in attribute:
+                continue
             attribute_index = attribute.index(j)
             vector[attribute_index] = text_counter[j]
         vector.insert(0, 1)

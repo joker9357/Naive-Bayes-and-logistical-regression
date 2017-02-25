@@ -29,8 +29,8 @@ def accuracy(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word
     count = 0  #number of test file
     spam_prior, ham_prior, spam_dict, ham_dict, total_length = training(spam_count, spam_word, spam_word_set, ham_count, ham_word, ham_word_set, total_set, spam_cut, ham_cut)
     print("finish training")
-    spam_data = test_parse('./3/test/spamtest')
-    ham_data = test_parse('./3/test/hamtest')
+    spam_data = test_parse('./test/spam')
+    ham_data = test_parse('./test/ham')
     for i in spam_data:
         count+=1
         p_s = spam_prior

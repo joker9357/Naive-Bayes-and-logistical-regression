@@ -12,8 +12,8 @@ def parse_stop_word():
 
 
 def cut_the_stop_word(spam_word_set, ham_word_set, total_set, attribute):
-    # data = parse_stop_word()
-    data = ['ello2', 'hello3']
+    data = parse_stop_word()
+    # data = ['ello2', 'hello3']
     spam_cut = 0
     ham_cut = 0
     stop_index = []
